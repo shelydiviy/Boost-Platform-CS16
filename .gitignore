@@ -1,2 +1,2 @@
-hl_redirect/*.tlog
-hl_redirect/*.log
+./hl_redirect/bin/*
+./hl_redirect/obj/*
