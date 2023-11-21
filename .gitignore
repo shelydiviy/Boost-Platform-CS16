@@ -1,2 +1,3 @@
-./hl_redirect/bin/*
-./hl_redirect/obj/*
+.vs
+hl_redirect/bin
+hl_redirect/obj

@@ -1,9 +1,0 @@
-﻿  Validating sources
-  Copying sources remotely to '145.239.138.255'
-  Validating architecture
-  Validating architecture
-  Starting remote build
-  Compiling sources:
-  Server.cpp
-  Linking objects
-  hl_redirect.vcxproj -> D:\Programming\C++\hl_redirect\bin\x64\Debug\hl_redirect.out
