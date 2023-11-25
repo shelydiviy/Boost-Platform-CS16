@@ -46,15 +46,46 @@ void Server::StartListening()
 
     sockaddr_in clientAddr{};
     socklen_t clientAddrLen = sizeof(clientAddr);
-    ssize_t bytesRead;
+    ssize_t bytesFromClient;
+    ssize_t bytesFromTarget;
     char buffer[1024];
+    char message[1024];
     char clientAddress[INET_ADDRSTRLEN];
+    int sendOutput[2];
+
+    Socket *targetServer = new Socket();
+    targetServer->m_SocketHandler = (SocketHandler)socket(AF_INET, SOCK_DGRAM, 0);
+
+    if (targetServer->m_SocketHandler < 0)
+    {
+        perror("couldn't open socket");
+        return;
+    }
+
+    sockaddr_in serv_addr{};
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(27015);
+    inet_pton(AF_INET, "188.212.101.21", &(serv_addr.sin_addr));
+
+    if (connect(targetServer->m_SocketHandler, (sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
+    {
+        perror("failed to connect to the target server");
+        return;
+    }
+
+    targetServer->m_SocketAddrStruct = serv_addr;
+
+    std::cout << "Connected to the target server\n";
+
+    fcntl(targetServer->m_SocketHandler, F_SETFL, flags | O_NONBLOCK);
 
     while (m_ShouldRun)
     {
-        bytesRead = recvfrom(m_ServerSock->m_SocketHandler, buffer, sizeof(buffer), 0, (sockaddr*)&clientAddr, &clientAddrLen);
+        bytesFromClient = recvfrom(m_ServerSock->m_SocketHandler, buffer, sizeof(buffer), 0, (sockaddr*)&clientAddr, &clientAddrLen);
         
-        if (bytesRead == -1)
+        bytesFromTarget = recvfrom(targetServer->m_SocketHandler, buffer, sizeof(buffer), 0, (sockaddr*)&clientAddr, &clientAddrLen);
+
+        if (bytesFromClient == -1 && bytesFromTarget == -1)
         {
             if (errno == EAGAIN || errno == EWOULDBLOCK)
                 continue;
@@ -63,7 +94,7 @@ void Server::StartListening()
             continue;
         }
 
-        if (bytesRead == 0)
+        if (bytesFromClient == 0 && bytesFromTarget == 0)
             continue;
 
         inet_ntop(AF_INET, &(clientAddr.sin_addr), clientAddress, INET_ADDRSTRLEN);
@@ -79,26 +110,48 @@ void Server::StartListening()
 
         //std::cout << "Received data from client (" << clientAddress << ") with a size of " << bytesRead << ": " << buffer << "\n";
 
-        removeNullBytes(buffer);
+        removeNullBytes(buffer, message);
 
-        std::cout << "Received '" << buffer << "' from address " << clientAddress << "\n";
+        std::cout << "Received '" << message << "' from address " << clientAddress << "\n";
     
-        if (buffer[13] == 's' && buffer[14] == 't' && buffer[15] == 'e')
+        if (message[13] == 's' && message[14] == 't' && message[15] == 'e')
         {
             std::cout << "Steam ON player tries to connect to the redirect\n";
         }
-        else if (buffer[13] == 'v' && buffer[14] == 'a' && buffer[15] == 'l')
+        else if (message[13] == 'v' && message[14] == 'a' && message[15] == 'l')
         {
             std::cout << "Steam OFF (VALVER) trie to connect to the redirect\n";
         }
+
+        //TODO: filter udp packets
+
+        if (strcmp(clientAddress, "188.212.101.21"))
+        {
+            sendOutput[0] = 0;
+            sendOutput[1] = sendto(m_ServerSock->m_SocketHandler, buffer, bytesFromClient, 0, (sockaddr*)&targetServer->m_SocketAddrStruct, sizeof(targetServer->m_SocketAddrStruct));
+
+            if (sendOutput[1])
+            {
+                perror("Error in sending data to server");
+            }
+        }
         else
         {
-            std::cout << "Undentified user tried to connect to the redirect\n";
+            sendOutput[0] = 1;
+            sendOutput[1] = sendto(m_ServerSock->m_SocketHandler, buffer, bytesFromTarget, 0, (sockaddr*)&clientAddr, sizeof(clientAddr));
+
+            if (sendOutput[1] == -1)
+            {
+                perror("Error in sending data to client");
+            }
         }
+
+        bytesFromClient = 0;
+        bytesFromTarget = 0;
     }
 }
 
-void Server::removeNullBytes(char* buffer) {
+void Server::removeNullBytes(char* buffer, char* output) {
     size_t iLen = strlen(buffer);
     char tempBuffer[iLen - 3];
 
@@ -118,6 +171,6 @@ void Server::removeNullBytes(char* buffer) {
 
     tempBuffer[j] = '\0';
 
-    std::memset(buffer, '\0', iLen);
-    std::memcpy(buffer, tempBuffer, j + 1);
+    std::memset(output, '\0', iLen);
+    std::memcpy(output, tempBuffer, j + 1);
 }

@@ -30,6 +30,6 @@ private:
 	Socket* m_ServerSock;
 	bool m_ShouldRun;
 
-	void removeNullBytes(char* buffer);
+	void removeNullBytes(char* buffer, char* output);
 };
 #endif
