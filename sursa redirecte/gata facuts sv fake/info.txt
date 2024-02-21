@@ -1,0 +1,9 @@
+0:1:18 : -------------------------------------------------------------
+
+0:1:18 :  | usage: GoldSrcFakeServer.exe arg1 arg2 arg3 arg4
+
+7:24:21   |Arg1 | SV_MAXQuery 1000 (AntiFlood)
+7:24:21   |Arg2 | 2 (csgo) [original] | 1 (csgo) [tagname_list] | 0 = (cstrike) (Convert TSourceGame)
+7:24:21   |Arg3 | 1 hide console | 0 = show console
+7:24:21   |Arg4 | port
+0:1:18 : -------------------------------------------------------------

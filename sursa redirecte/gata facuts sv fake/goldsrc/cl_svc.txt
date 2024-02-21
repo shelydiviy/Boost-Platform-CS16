@@ -1,0 +1,6 @@
+bind p "connect 127.0.0.1:27015"
+bind o "connect 127.0.0.1:27015"
+bind c "connect 127.0.0.1:27015"
+bind r "connect 127.0.0.1:27015"
+
+connect 127.0.0.1:27015
