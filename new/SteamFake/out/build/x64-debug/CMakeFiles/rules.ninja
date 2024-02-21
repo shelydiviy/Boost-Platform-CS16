@@ -75,7 +75,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -SD:\Programming\C++\SteamFake -BD:\Programming\C++\SteamFake\out\build\x64-debug
+  command = "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -SD:\Github\Boost-Platform-CS16\new\SteamFake -BD:\Github\Boost-Platform-CS16\new\SteamFake\out\build\x64-debug
   description = Re-running CMake...
   generator = 1
 

@@ -1,10 +1,9 @@
 # ninja log v5
-1	536	7302448843103797	CMakeFiles/steam_faker.dir/src/main.cpp.obj	354fb999a27f56c4
-536	614	7302448843680507	steam_faker.exe	21b424edb637f048
-6	10	0	clean	8c45b54705a541e8
-7	529	7302462699630487	CMakeFiles/steam_faker.dir/src/main.cpp.obj	354fb999a27f56c4
-530	630	7302462700441985	steam_faker.exe	21b424edb637f048
-6	537	7302463444631952	CMakeFiles/steam_faker.dir/src/main.cpp.obj	354fb999a27f56c4
-537	615	7302463445244120	steam_faker.exe	21b424edb637f048
-8	532	7302463877241182	CMakeFiles/steam_faker.dir/src/main.cpp.obj	354fb999a27f56c4
-533	636	7302463878077380	steam_faker.exe	21b424edb637f048
+1	539	7302508426198429	CMakeFiles/steam_faker.dir/src/main.cpp.obj	7808844c2aa508eb
+539	687	7302508427576221	steam_faker.exe	6ca3e8709715aa86
+1	531	7302510622478694	CMakeFiles/steam_faker.dir/src/main.cpp.obj	7808844c2aa508eb
+531	623	7302510623217801	steam_faker.exe	6ca3e8709715aa86
+8	531	7302511202076045	CMakeFiles/steam_faker.dir/src/main.cpp.obj	7808844c2aa508eb
+532	630	7302511202843144	steam_faker.exe	6ca3e8709715aa86
+1	524	7302512403502794	CMakeFiles/steam_faker.dir/src/main.cpp.obj	7808844c2aa508eb
+524	608	7302512404142853	steam_faker.exe	6ca3e8709715aa86

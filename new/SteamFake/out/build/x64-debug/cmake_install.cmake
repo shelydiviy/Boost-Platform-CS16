@@ -1,8 +1,8 @@
-# Install script for directory: D:/Programming/C++/SteamFake
+# Install script for directory: D:/Github/Boost-Platform-CS16/new/SteamFake
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "D:/Programming/C++/SteamFake/out/install/x64-debug")
+  set(CMAKE_INSTALL_PREFIX "D:/Github/Boost-Platform-CS16/new/SteamFake/out/install/x64-debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/Programming/C++/SteamFake/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/Github/Boost-Platform-CS16/new/SteamFake/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

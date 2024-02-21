@@ -144,8 +144,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "D:/Programming/C++/SteamFake/out/build/x64-debug",
-		"source" : "D:/Programming/C++/SteamFake"
+		"build" : "D:/Github/Boost-Platform-CS16/new/SteamFake/out/build/x64-debug",
+		"source" : "D:/Github/Boost-Platform-CS16/new/SteamFake"
 	},
 	"version" : 
 	{

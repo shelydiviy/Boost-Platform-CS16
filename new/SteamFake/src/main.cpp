@@ -11,7 +11,7 @@ using namespace std;
 
 uint32 AddressStrToInt(const char* ipv4_address);
 bool SendPacket(char* buffer, int buffer_size, int port);
-void Connect(int port);
+void Connect();
 void Disconnect();
 
 int main()
@@ -45,12 +45,8 @@ int main()
 	std::cout << "SteamID: " << cSteamID.ConvertToUint64() << "\n";
 
 	if (!SteamUser()->UserHasLicenseForApp(cSteamID, 10))
-	{
 		std::cerr << "Couldn't detect a valid license for Counter-Strike 1.6\n";
-		exit(EXIT_FAILURE);
-	}
-
-	std::cout << "Counter-Strike 1.6 license detected\n";
+	else std::cout << "Counter-Strike 1.6 license detected\n";
 
 	std::string input;
 	std::string port;
@@ -59,16 +55,16 @@ int main()
 	{
 		std::cin >> input;
 
-		Connect(std::stoi(input));
+		Connect();
 	}
 
 	return 0;
 }
 
-void Connect(int port)
+void Connect()
 {
-	uint64 steamIDValue27016 = 90182161944798233;
-	uint64 steamIDValue27017 = 90182161944807449;
+	uint64 steamIDValue27016 = 90182185440773145;
+	uint64 steamIDValue27017 = 90182185440777241;
 	
 
 	uint32 unIP = AddressStrToInt("51.89.8.25");
