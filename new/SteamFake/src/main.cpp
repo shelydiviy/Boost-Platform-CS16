@@ -63,33 +63,19 @@ int main()
 
 void Connect()
 {
-	uint64 steamIDValue27016 = 90182185440773145;
-	uint64 steamIDValue27017 = 90182185440777241;
+	uint64 steamIDValue27016 = 90182362935438361;
 	
-
 	uint32 unIP = AddressStrToInt("51.89.8.25");
 
 	CSteamID cServerSteamID27016(steamIDValue27016);
-	CSteamID cServerSteamID27017(steamIDValue27017);
 
 	char pAuthBlob[4096];
 	char pAuthBlob2[4096];
 	int bytes = SteamUser()->InitiateGameConnection(pAuthBlob, sizeof(pAuthBlob), cServerSteamID27016, unIP, 27016, false);
-	int bytes2 = SteamUser()->InitiateGameConnection(pAuthBlob2, sizeof(pAuthBlob2), cServerSteamID27016, unIP, 27017, false);
 
 	if (!bytes)
 	{
 		std::cerr << "Failed to initialize a connection to the server for 27016\n";
-		return;
-	}
-	else
-	{
-		std::cout << "Retrieved succesfully a ticket of " << bytes << " bytes\n";
-	}
-
-	if (!bytes2)
-	{
-		std::cerr << "Failed to initialize a connection to the server for 27017\n";
 		return;
 	}
 	else
@@ -106,16 +92,6 @@ void Connect()
 	{
 		std::cout << "Authentification token sent succesfully to port 27016\n";
 	}
-
-	if (!SendPacket(pAuthBlob2, bytes2, 27017))
-	{
-		std::cerr << "Failed to send packet\n";
-		return;
-	}
-	else
-	{
-		std::cout << "Authentification token sent succesfully to port 27017\n";
-	}
 }
 
 void Disconnect()
@@ -131,14 +107,12 @@ void Disconnect()
 
 bool SendPacket(char* buffer, int buffer_size, int port)
 {
-	// Initialize WinSock
 	WSADATA wsaData;
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
 		std::cerr << "Failed to initialize WinSock" << std::endl;
 		return false;
 	}
 
-	// Create a UDP socket
 	SOCKET udpSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	if (udpSocket == INVALID_SOCKET) {
 		std::cerr << "Failed to create UDP socket" << std::endl;
@@ -146,28 +120,27 @@ bool SendPacket(char* buffer, int buffer_size, int port)
 		return false;
 	}
 
-	// Set up the server address structure
 	sockaddr_in serverAddr;
 	serverAddr.sin_family = AF_INET;
-	serverAddr.sin_port = htons(port); // Replace with the desired port
-	inet_pton(AF_INET, "51.89.8.25", &serverAddr.sin_addr); // Replace with the desired IP address
+	serverAddr.sin_port = htons(port);
+	inet_pton(AF_INET, "51.89.8.25", &serverAddr.sin_addr);
 
-	// Send a UDP packet to the server
 	int result = sendto(udpSocket, buffer, buffer_size, 0, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr));
 
 	if (result == SOCKET_ERROR) 
 		return false;
 
-	// Close the socket
+	int bytes = recvfrom(
+
 	closesocket(udpSocket);
 
-	// Clean up WinSock
 	WSACleanup();
 
 	return true;
 }
 
-uint32 AddressStrToInt(const char* ipv4_address) {
+uint32 AddressStrToInt(const char* ipv4_address)
+{
 	uint32_t ipAddress = 0;
 
 	if (inet_pton(AF_INET, ipv4_address, &ipAddress) != 1)

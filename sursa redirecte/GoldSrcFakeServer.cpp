@@ -2727,5 +2727,3 @@ int main(int argc, char* argv[])
 	EmulationServer(getcomment);
 	return 1;
 }
-
-

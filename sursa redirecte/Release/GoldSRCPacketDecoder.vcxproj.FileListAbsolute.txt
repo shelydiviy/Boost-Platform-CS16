@@ -1,1 +1,2 @@
 C:\Users\super\Desktop\sursa redirecte\Release\GoldSrcFakeServer.exe
+D:\Github\Boost-Platform-CS16\sursa redirecte\Release\GoldSrcFakeServer.exe
