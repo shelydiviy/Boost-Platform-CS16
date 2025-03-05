@@ -1,0 +1,59 @@
+# Минимальная версия CMake
+cmake_minimum_required(VERSION 3.10)
+
+# Название проекта
+project(hl_redirect VERSION 1.0 LANGUAGES CXX)
+
+# Установка стандартов C++
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Добавление исходных файлов
+set(SOURCES
+    hl_redirect.cpp
+    main.cpp
+)
+
+# Создание исполняемого файла
+add_executable(hl_redirect ${SOURCES})
+
+# Поиск и подключение Steam API
+find_library(STEAM_API_LIBRARY NAMES steam_api libsteam_api PATHS
+    /usr/lib
+    /usr/local/lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/linux32/libsteam_api.so
+    $ENV{STEAM_SDK}/redistributable_bin/win64
+    PATH_SUFFIXES lib
+)
+
+if(STEAM_API_LIBRARY)
+    message(STATUS "Found Steam API library: ${STEAM_API_LIBRARY}")
+    target_link_libraries(hl_redirect PRIVATE ${STEAM_API_LIBRARY})
+else()
+    message(WARNING "Steam API library not found! Make sure it is installed.")
+endif()
+
+# Настройка путей для заголовочных файлов Steam API (если они нужны)
+find_path(STEAM_API_INCLUDE_DIR NAMES steam_api.h
+    PATHS
+    $ENV{STEAM_SDK}/public
+    PATH_SUFFIXES include
+)
+
+if(STEAM_API_INCLUDE_DIR)
+    message(STATUS "Found Steam API include directory: ${STEAM_API_INCLUDE_DIR}")
+    target_include_directories(hl_redirect PRIVATE ${STEAM_API_INCLUDE_DIR})
+else()
+    message(WARNING "Steam API include directory not found!")
+endif()
+
+# Опционально: добавление пользовательских определений
+add_definitions(-DHL_REDIRECT_VERSION="1.0")
+
+# Опционально: настройка компилятора для отладки/релиза
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_options(hl_redirect PRIVATE -g -O0)
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    target_compile_options(hl_redirect PRIVATE -O2 -DNDEBUG)
+endif()
